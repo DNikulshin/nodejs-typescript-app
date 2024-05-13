@@ -12,9 +12,6 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use(routes)
 
-console.log('process.env.ENV_DEV', process.env.ENV_DEV)
-console.log('process.env.ENV_PROD', process.env.ENV_PROD)
-
 if (process.env.ENV_PROD === 'production') {
   app.use('/', express.static(path.join(__dirname, 'client', 'dist')))
   app.get('*', (req, res) => {
