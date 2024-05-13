@@ -1,22 +1,23 @@
 import express from 'express'
 import cors from 'cors'
-import { connectDb } from './db/connect.js'
+import { sequelize } from './db/connect.js'
 import { Task } from './models/Task.js'
-import { getTasks, createTask } from './controllers/task.controller.js'
+import routes from './router/task.rourer.js'
+// import { getTasks, createTask } from './controllers/task.controller.js'
 const message: string = 'Hello NodeJS'
 
 const app = express()
 app.use(cors())
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use('/tasks', getTasks)
-app.use('/tasks', createTask)
+app.use(express.urlencoded({ extended: false }))
+
+app.use(routes)
 
 async function start() {
   try {
-    await connectDb.authenticate()
-    await Task.sync()
-    app.get('*', (req, res) => {
+    await sequelize.authenticate()
+    await sequelize.sync()
+    app.get('/', (req, res) => {
       res.send(message)
     })
 

@@ -1,7 +1,7 @@
-import { connectDb } from '../db/connect.js'
+import { sequelize } from '../db/connect.js'
 import { DataTypes } from 'sequelize'
 
-export const Task = connectDb.define('tasks', {
+export const Task = sequelize.define('tasks', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
