@@ -1,9 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import { sequelize } from './db/connect.js'
-import { Task } from './models/Task.js'
 import routes from './router/task.rourer.js'
-// import { getTasks, createTask } from './controllers/task.controller.js'
 const message: string = 'Hello NodeJS'
 
 const app = express()
