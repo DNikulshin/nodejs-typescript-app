@@ -1,3 +1,4 @@
+import { User } from '@prisma/client'
 import { Request, Response, NextFunction } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { ApiError } from '../exeptions/api.error.js'
@@ -13,24 +14,22 @@ export default function (roles: string[]) {
             const authorizationHeader = req.headers.authorization
 
             if (!authorizationHeader) {
-                return next(ApiError.UnautorizendError())
+                return next(ApiError.UnauthorizedError())
             }
 
-            const accsessToken = authorizationHeader.split(" ")[1]
+            const accessToken = authorizationHeader.split(" ")[1]
 
-            if (!accsessToken) {
-                return next(ApiError.UnautorizendError())
+            if (!accessToken) {
+                return next(ApiError.UnauthorizedError())
             }
-            console.log('accsessToken', accsessToken);
 
 
-            const { role: userRole } = jwt.verify(accsessToken, process.env.JWT_ACCESS_SECRET) as JwtPayload
-            console.log('userRole ', userRole);
+            const {role:  userRoles }  = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET) as JwtPayload
 
             let hasRole = false
 
-            userRole.forEach((role: string) => {
-                if (roles.includes(role)) {
+            userRoles.map(role => {
+                if(roles.includes(role?.name)) {
                     hasRole = true
                 }
             })
@@ -41,7 +40,7 @@ export default function (roles: string[]) {
 
             next()
         } catch (error) {
-            return next(ApiError.UnautorizendError())
+            return next(ApiError.UnauthorizedError())
         }
     }
 }

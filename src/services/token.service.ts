@@ -1,10 +1,10 @@
-import jwt from 'jsonwebtoken'
 import { PrismaClient } from '@prisma/client'
+import jwt from 'jsonwebtoken'
 
 const prismaClient = new PrismaClient()
 
 class TokenService {
-     genereteTokens(payload: string | object) {
+     generateTokens(payload: string | object) {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
             expiresIn: process.env.JWT_ACCESS_EXPIRESIN
         })
@@ -21,24 +21,17 @@ class TokenService {
 
     validateAccessToken(token: string) {
         try {
-            const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET)
-            console.log('validateAccessToken', userData);
-            
-    
-            return userData
+            return jwt.verify(token, process.env.JWT_ACCESS_SECRET)
         } catch (e) {
-            console.log('validateAccessToken', 'TokenService');
-            
+
             return null
         }
     }
 
     validateRefreshToken(token: string) {
         try {
-            const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET)
-            return userData
+            return jwt.verify(token, process.env.JWT_REFRESH_SECRET)
         } catch (e) {
-            console.log('validaRefreshToken', 'TokenService');
             return null
         }
     }

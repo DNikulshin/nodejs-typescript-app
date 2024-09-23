@@ -6,7 +6,7 @@ export class UserDto {
   email
   isActivated
   name
-  roleName
+  role
 
 
   constructor(model: IUserDto) {
@@ -14,7 +14,7 @@ export class UserDto {
     this.email = model.email
     this.isActivated = model.isActivated
     this.name = model.name
-    this.roleName = model.roleName
+    this.role = model.role
 
   }
 }

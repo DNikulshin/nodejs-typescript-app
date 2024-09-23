@@ -7,6 +7,7 @@ declare global {
             ENV_PROD: null
             DATABASE_URL: string
             PORT: number
+            HOST: string
             POSTGRES_URL: string
             POSTGRES_PRISMA_URL: string
             POSTGRES_URL_NO_SSL: string

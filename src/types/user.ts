@@ -3,7 +3,7 @@ export interface IUserDto {
     email: string
     isActivated?: boolean
     name?: string | null
-    roleName?: string[]
+    role?: string
     password?: string
   }
 

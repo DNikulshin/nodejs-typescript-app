@@ -1,6 +1,7 @@
 import express from 'express'
 import path from 'path'
 import {createWriteStream} from 'fs'
+//import ip from 'ip'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import routes from './router/index.js'
@@ -15,7 +16,7 @@ const accessLogStream = createWriteStream(path.join(__dirname, 'logs.log'), { fl
 
 const app = express()
 app.use(morgan('combined', {
-  skip: function (req, res) { return res.statusCode < 400 },
+  skip: function (req, res) { return res.statusCode < 500 },
   stream: accessLogStream
 }))
 app.use(cors())
@@ -33,12 +34,14 @@ if (process.env.ENV_PROD === 'production') {
 }
 
 const PORT = process.env.PORT || 5000
+const HOST = process.env.HOST || 'localhost'
 
 async function start() {
   try {
+
     await prisma.$connect()
-    app.listen(PORT, () => {
-      console.log(`Server is running on port http:/\/\localhost:${PORT}`)
+    app.listen(PORT, HOST, () => {
+      console.log(`Server is running on port http:\/\/${HOST}:${PORT}`)
     })
   } catch (error) {
     console.error(error)

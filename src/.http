@@ -15,7 +15,7 @@ Content-Type: application/json
 # Authorization: Bearer
 
 {
-    "email": "admin@admin.ru",
+    "email": "d.nikulshin.dev@gmail.com",
     "password": "123456"
 }
 ###
