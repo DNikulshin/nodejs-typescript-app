@@ -23,17 +23,10 @@ export default function (roles: string[]) {
             }
 
 
-            const {role:  userRoles }  = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET) as JwtPayload
+            const {role:  userRole }  = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET) as JwtPayload
 
-            let hasRole = false
-
-            userRoles.map((role: { name: string })  => {
-                if(roles.includes(role?.name)) {
-                    hasRole = true
-                }
-            })
-
-            if (!hasRole) {
+      
+            if (!roles.includes(userRole)) {
                 return next(ApiError.ForbiddenError())
             }
 

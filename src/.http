@@ -3,16 +3,18 @@ Content-Type: application/json
 # Authorization: Bearer
 
 {
-    "email": "admin5@admin.ru",
+    "email": "admin1@admin.ru",
     "password": "123456",
     "name": "admin",
     "role": "ADMIN"
 }
 
 # {
-#     "email": "user2@user.ru",
+#     "email": "user11@user.ru",
 #     "password": "123456"
 # }
+
+
 ###
 
 POST  http://localhost:5000/api/login
@@ -29,10 +31,16 @@ POST  http://localhost:5000/api/login
 Content-Type: application/json
 # Authorization: Bearer
 
+# {
+#     "email": "user@user.ru",
+#     "password": "123456"
+# }
+
 {
-    "email": "user@user.ru",
+    "email": "admin11@admin.ru",
     "password": "123456"
 }
+
 ###
 
 
@@ -46,7 +54,7 @@ Content-Type: application/json
 
 GET   http://localhost:5000/api/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU2YzBiZTk5LTkwNmUtNGU4NC1hMzU3LWI2ODJiNDk2Zjc4NSIsImVtYWlsIjoiYWRtaW5AYWRtaW4ucnUiLCJpc0FjdGl2YXRlZCI6ZmFsc2UsIm5hbWUiOiJhZG1pbiIsImlhdCI6MTcyNzA3MDMxOCwiZXhwIjoxNzI3MDcyMTE4fQ.SNx64tlAXvYMka-buHg0R7soAa74g9rRLSWLtfvBA6c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE5ODg3ZDlkLTE3MjEtNDljYi1iOWQ0LTE0ZmE3MDc2Y2QzYyIsImVtYWlsIjoiYWRtaW4xMUBhZG1pbi5ydSIsImlzQWN0aXZhdGVkIjpmYWxzZSwibmFtZSI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwicGFzc3dvcmQiOiIkMmIkMDUka0E0am1YNURHaGtqRW5RN0dmTy5ZZTF4cFY4eU1mclBOazV1S3NnRy40dGlPL0VtL1RPOTIiLCJpYXQiOjE3MjcxMzM4MDcsImV4cCI6MTcyNzEzNTYwN30.Db1Jc51Hf0GIQ_mghkzdgC13X9ZCDYBLZjHgKKPCJU8
 ###
 GET   http://localhost:5000/api/refresh
 Content-Type: application/json

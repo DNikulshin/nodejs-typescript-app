@@ -13,7 +13,7 @@ class UserController {
             if (!errors.isEmpty()) {
                 return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
             }
-            const { email, password, name, role = 'USER' } = req.body
+            const { email, password, name, role} = req.body
 
             const userData = await userService.registration({ email, password, name, role})
 

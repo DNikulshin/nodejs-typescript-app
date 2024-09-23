@@ -38,7 +38,7 @@ router.post(LOGIN_PATH,
 router.post(LOGOUT_PATH, userController.logout)
 router.get(ACTIVATE_PATH, userController.activate)
 router.get(REFRESH_PATH, userController.refresh)
-router.get(USERS_PATH, roleMiddleware(['ADMIN', 'USER']), authMiddleware, userController.getUsers)
+router.get(USERS_PATH, roleMiddleware(['ADMIN']), authMiddleware, userController.getUsers)
 
 
 export default router

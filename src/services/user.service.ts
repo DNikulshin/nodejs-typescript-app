@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { $Enums, User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 import prismaClient from '../../prisma/prisma.client.js'
@@ -12,6 +12,7 @@ import tokenService from './token.service.js'
 class UserService {
 
   async registration({ email, password, name, role = 'USER'}: Omit<IUserDto, 'id'>) {
+  
     const candidate = await prismaClient.user.findUnique({
       where: { email },
     })
@@ -34,7 +35,7 @@ class UserService {
         password: hashedPassword,
         name,
         activationLink,
-        role: role ? role : 'USER'
+        role: $Enums.Role[role as keyof typeof $Enums.Role] ?? $Enums.Role['USER']
       },
       select: {
         id: true,
