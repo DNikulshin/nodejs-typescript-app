@@ -1,4 +1,3 @@
-import { User } from '@prisma/client'
 import { Request, Response, NextFunction } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { ApiError } from '../exeptions/api.error.js'
@@ -28,7 +27,7 @@ export default function (roles: string[]) {
 
             let hasRole = false
 
-            userRoles.map(role => {
+            userRoles.map((role: { name: string })  => {
                 if(roles.includes(role?.name)) {
                     hasRole = true
                 }

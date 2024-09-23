@@ -7,6 +7,7 @@ export class UserDto {
   isActivated
   name
   role
+  password?
 
 
   constructor(model: IUserDto) {
@@ -15,6 +16,6 @@ export class UserDto {
     this.isActivated = model.isActivated
     this.name = model.name
     this.role = model.role
-
+    this.password = model.password
   }
 }

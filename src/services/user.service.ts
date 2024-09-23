@@ -11,7 +11,7 @@ import tokenService from './token.service.js'
 
 class UserService {
 
-  async registration({ email, password, name = 'user', role = 'USER'}: Omit<IUserDto, 'id'>) {
+  async registration({ email, password, name, role = 'USER'}: Omit<IUserDto, 'id'>) {
     const candidate = await prismaClient.user.findUnique({
       where: { email },
     })
@@ -34,11 +34,7 @@ class UserService {
         password: hashedPassword,
         name,
         activationLink,
-        role: {
-          create: {
-            name: role ?? 'USER'
-          }
-        }
+        role: role ? role : 'USER'
       },
       select: {
         id: true,
@@ -48,7 +44,7 @@ class UserService {
         role: true,
         posts: true
       }
-    }) as User
+    }) as unknown as IUserDto
 
     const userDto = new UserDto(user)
     await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
@@ -84,17 +80,16 @@ class UserService {
   async login(email: string, password: string) {
     const user = await prismaClient.user.findUnique({
       where: { email },
-        select: {
-          id: true,
-          email: true,
-          password: true,
-          isActivated: true,
-          name: true,
-          role: true,
-          posts: true
-        }
-
-    }) as User
+      select: {
+        id: true,
+        email: true,
+        isActivated: true,
+        password: true,
+        name: true,
+        role: true,
+        posts: true
+      }
+    }) as unknown as User
 
     if (!user) {
       throw ApiError.BadRequest(`Неверный логин или пароль`)
@@ -145,7 +140,7 @@ class UserService {
         role: true,
         posts: true
       }
-    }) as IUserDto
+    }) as unknown as IUserDto
 
 
     const userDto = new UserDto(user)

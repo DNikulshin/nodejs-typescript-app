@@ -17,25 +17,25 @@ export  default function authMiddleware (req: RequestWithUser, res: Response, ne
     const authorizationHeader = req.headers.authorization
 
     if (!authorizationHeader) {
-      return next(ApiError.UnautorizendError())
+      return next(ApiError.UnauthorizedError())
     }
 
     const accsessToken = authorizationHeader.split(" ")[1]
 
     if (!accsessToken) {
-      return next(ApiError.UnautorizendError())
+      return next(ApiError.UnauthorizedError())
     }
 
     const userData = tokenService.validateAccessToken(accsessToken) as unknown as IUserDto
 
     if (!userData) {
-      return next(ApiError.UnautorizendError())
+      return next(ApiError.UnauthorizedError())
     }
 
     req.user = userData
 
     next()
   } catch (error) {
-    return next(ApiError.UnautorizendError())
+    return next(ApiError.UnauthorizedError())
   }
 }

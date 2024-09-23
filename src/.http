@@ -3,11 +3,16 @@ Content-Type: application/json
 # Authorization: Bearer
 
 {
-    "email": "admin@admin.ru",
+    "email": "admin5@admin.ru",
     "password": "123456",
     "name": "admin",
-    "roleName": "ADMIN"
+    "role": "ADMIN"
 }
+
+# {
+#     "email": "user2@user.ru",
+#     "password": "123456"
+# }
 ###
 
 POST  http://localhost:5000/api/login
@@ -15,7 +20,7 @@ Content-Type: application/json
 # Authorization: Bearer
 
 {
-    "email": "d.nikulshin.dev@gmail.com",
+    "email": "admin@admin.ru",
     "password": "123456"
 }
 ###
