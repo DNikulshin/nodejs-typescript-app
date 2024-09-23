@@ -1,0 +1,49 @@
+POST  http://localhost:5000/api/registration
+Content-Type: application/json
+# Authorization: Bearer
+
+{
+    "email": "admin@admin.ru",
+    "password": "123456",
+    "name": "admin",
+    "roleName": "ADMIN"
+}
+###
+
+POST  http://localhost:5000/api/login
+Content-Type: application/json
+# Authorization: Bearer
+
+{
+    "email": "admin@admin.ru",
+    "password": "123456"
+}
+###
+
+POST  http://localhost:5000/api/login
+Content-Type: application/json
+# Authorization: Bearer
+
+{
+    "email": "user@user.ru",
+    "password": "123456"
+}
+###
+
+
+
+POST  http://localhost:5000/api/logout
+Content-Type: application/json
+# Authorization: Bearer
+
+###
+
+
+GET   http://localhost:5000/api/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU2YzBiZTk5LTkwNmUtNGU4NC1hMzU3LWI2ODJiNDk2Zjc4NSIsImVtYWlsIjoiYWRtaW5AYWRtaW4ucnUiLCJpc0FjdGl2YXRlZCI6ZmFsc2UsIm5hbWUiOiJhZG1pbiIsImlhdCI6MTcyNzAzOTI5MSwiZXhwIjoxNzI3MDQxMDkxfQ.7fJsQeBgYCPnyWkYYLigqy8THat7OIxSsALTfksqUtw
+###
+GET   http://localhost:5000/api/refresh
+Content-Type: application/json
+
+###

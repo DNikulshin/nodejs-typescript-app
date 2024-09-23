@@ -1,16 +1,29 @@
 import express from 'express'
 import path from 'path'
+import {createWriteStream} from 'fs'
 import cors from 'cors'
-import { sequelize } from './db/connect.js'
-import routes from './router/task.rourer.js'
+import cookieParser from 'cookie-parser'
+import routes from './router/index.js'
+import prisma from '../prisma/prisma.client.js'
+import errorMiddleware from './midddleware/error.middleware.js'
+import morgan from 'morgan'
+
 const __dirname = path.resolve()
 
+const accessLogStream = createWriteStream(path.join(__dirname, 'logs.log'), { flags: 'a' })
+
+
 const app = express()
+app.use(morgan('combined', {
+  skip: function (req, res) { return res.statusCode < 400 },
+  stream: accessLogStream
+}))
 app.use(cors())
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
-
-app.use(routes)
+app.use('/api', routes)
+app.use(errorMiddleware)
 
 if (process.env.ENV_PROD === 'production') {
   app.use('/', express.static(path.join(__dirname, 'client', 'dist')))
@@ -19,15 +32,17 @@ if (process.env.ENV_PROD === 'production') {
   })
 }
 
+const PORT = process.env.PORT || 5000
+
 async function start() {
   try {
-    await sequelize.authenticate()
-    await sequelize.sync()
-    app.listen(3000, () => {
-      console.log('Server is running on port 3000')
+    await prisma.$connect()
+    app.listen(PORT, () => {
+      console.log(`Server is running on port http:/\/\localhost:${PORT}`)
     })
   } catch (error) {
     console.error(error)
+    await prisma.$disconnect()
     process.exit(1)
   }
 }
