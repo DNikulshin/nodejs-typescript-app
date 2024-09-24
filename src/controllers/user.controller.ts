@@ -118,6 +118,21 @@ class UserController {
         }
     }
 
+    
+    async removeUserByID(req: Request, res: Response, next: NextFunction) {
+        const {id } = req.params
+        try {
+
+            const user = await userService.removeUserByID(id)
+            return res.json(user)
+
+        } catch (e) {
+            next(e)
+
+        }
+    }
+
+
 
 }
 

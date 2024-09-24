@@ -166,6 +166,13 @@ class UserService {
       },
     })
   }
+  async removeUserByID(id: string) {
+    return prismaClient.user.delete({
+      where: {
+        id
+      }
+    })
+  }
 
 }
 

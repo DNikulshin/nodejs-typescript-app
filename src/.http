@@ -3,15 +3,16 @@ Content-Type: application/json
 # Authorization: Bearer
 
 {
-    "email": "admin1@admin.ru",
+    "email": "admin2@admin.ru",
     "password": "123456",
     "name": "admin",
     "role": "ADMIN"
 }
 
 # {
-#     "email": "user11@user.ru",
-#     "password": "123456"
+#     "email": "user1@user.ru",
+#     "password": "123456",
+#      "role": "sssssssss"
 # }
 
 
@@ -37,7 +38,7 @@ Content-Type: application/json
 # }
 
 {
-    "email": "admin11@admin.ru",
+    "email": "admin@admin.ru",
     "password": "123456"
 }
 
@@ -54,7 +55,13 @@ Content-Type: application/json
 
 GET   http://localhost:5000/api/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE5ODg3ZDlkLTE3MjEtNDljYi1iOWQ0LTE0ZmE3MDc2Y2QzYyIsImVtYWlsIjoiYWRtaW4xMUBhZG1pbi5ydSIsImlzQWN0aXZhdGVkIjpmYWxzZSwibmFtZSI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwicGFzc3dvcmQiOiIkMmIkMDUka0E0am1YNURHaGtqRW5RN0dmTy5ZZTF4cFY4eU1mclBOazV1S3NnRy40dGlPL0VtL1RPOTIiLCJpYXQiOjE3MjcxMzM4MDcsImV4cCI6MTcyNzEzNTYwN30.Db1Jc51Hf0GIQ_mghkzdgC13X9ZCDYBLZjHgKKPCJU8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlNzI2OWQxLTc0Y2MtNGZmNy1hZTE4LTNhZjhkOGJhMTIzZCIsImVtYWlsIjoiYWRtaW5AYWRtaW4ucnUiLCJpc0FjdGl2YXRlZCI6ZmFsc2UsIm5hbWUiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiIsInBhc3N3b3JkIjoiJDJiJDA1JFRaODZjdTVONnZVOHovWWIyT0dwWnVFU0RvSzR5dG5DMTFYQWdHN2hXU1JtNGJhZTFOM3NPIiwiaWF0IjoxNzI3MTM0MTMzLCJleHAiOjE3MjcxMzU5MzN9.zBusxNdQOW21hkmCGNpJDEYJJTq0JN6r3-MAv_rIXqs
+###
+
+
+DELETE    http://localhost:5000/api/users/10690f53-3b32-476d-a802-786b23beb0fc
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIasInR5cCI6IkpXVCJ9.eyJpZCI6ImFlNzI2OWQxLTc0Y2MtNGZmNy1hZTE4LTNhZjhkOGJhMTIzZCIsImVtYWlsIjoiYWRtaW5AYWRtaW4ucnUiLCJpc0FjdGl2YXRlZCI6ZmFsc2UsIm5hbWUiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiIsInBhc3N3b3JkIjoiJDJiJDA1JFRaODZjdTVONnZVOHovWWIyT0dwWnVFU0RvSzR5dG5DMTFYQWdHN2hXU1JtNGJhZTFOM3NPIiwiaWF0IjoxNzI3MTM0MTMzLCJleHAiOjE3MjcxMzU5MzN9.zBusxNdQOW21hkmCGNpJDEYJJTq0JN6r3-MAv_rIXqs
 ###
 GET   http://localhost:5000/api/refresh
 Content-Type: application/json

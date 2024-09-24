@@ -10,6 +10,7 @@ import {
   REFRESH_PATH,
   REGISTRATION_PATH,
   USERS_PATH,
+  USERS_PATH_BY_ID,
 } from '../constants/index.js'
 
 
@@ -39,6 +40,7 @@ router.post(LOGOUT_PATH, userController.logout)
 router.get(ACTIVATE_PATH, userController.activate)
 router.get(REFRESH_PATH, userController.refresh)
 router.get(USERS_PATH, roleMiddleware(['ADMIN']), authMiddleware, userController.getUsers)
+router.delete(USERS_PATH_BY_ID, roleMiddleware(['ADMIN']), authMiddleware, userController.removeUserByID)
 
 
 export default router
