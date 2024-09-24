@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response } from 'express'
 import { ApiError } from '../exeptions/api.error.js'
 
-export default function (err: Error, req: Request, res: Response, next: NextFunction) {
+export default function (err: Error, req: Request, res: Response) {
     console.log(err)
 
     if (err instanceof ApiError) {
