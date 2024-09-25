@@ -19,7 +19,7 @@
     "client:build": "npm run build --prefix client",
     "build": "rimraf ./build && npx tsc && npm run client:build",
     "start": "npm run build && npm run start:prod",
-    "start:prod": "cross-env ENV_PROD=production node build/main",
+    "start:prod": "cross-env ENV_PROD=production node build/src/main",
     "lint": "npx eslint ./src",
     "format": "npx eslint ./src --fix"
   },

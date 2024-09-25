@@ -1,20 +1,49 @@
-import { LoginForm } from "./components/LoginForm"
+import { useEffect } from "react"
+import { BrowserRouter as Router } from "react-router-dom"
+import { useRoutes } from './router/routes.tsx'
 import { useStore } from './store/store.ts'
+import { ToastContainer } from "react-toastify"
+// import { LoginPage } from "./pages/LoginPage.tsx"
+
+// import { PrivateRoutes } from "./router/PivateRoutes.tsx"
 
 function App() {
-  const isAuth = useStore(state => state.isAuth)
-  const logout = useStore(state => state.logout)
-  const user = useStore(state => state.user)
+  const routes = useRoutes()
+  const checkAuth = useStore(state => state.checkAuth)
+  const isLoading = useStore(state => state.isLoading)
+  // const isAuth = useStore(state => state.isAuth)
+  // const errors = useStore(state => state.errors)
+
+
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) checkAuth()
+  }, [])
+
+  // useEffect(() => {
+  //   console.log(errors, '11111111111111111111');
+
+  // }, [errors])
+  // console.log('isAuth :', isAuth);
+
+
+  if (isLoading) {
+    return (
+      <div>Загрузка...</div>
+    )
+  }
+
+  // if (!isAuth) {
+  //   return <LoginPage />
+  // }
 
   return (
-    <div className="flex w-full h-screen flex-col justify-center items-center">
-      <div>{user.email}</div>
-      <strong>{user?.name}</strong>
+    <>
+      <Router>
+        {routes}
+      </Router>
 
-      <strong>{isAuth ? 'Авторизован' : 'Не авторизован'}</strong>
-      <button  className="px-2 py-2 bg-red-400 shadow-md" onClick={() => logout()}>logout</button>
-     <LoginForm/>
-    </div>
+      <ToastContainer position="top-center" />
+    </>
   )
 }
 

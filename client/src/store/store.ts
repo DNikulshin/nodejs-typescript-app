@@ -1,26 +1,29 @@
 
 import { create } from 'zustand'
+import axios from 'axios'
 import { IUser } from '../models/User'
 import AuthService from '../services/AuthService'
 import ErrorHandler from '../exeptions/ErrorHandler'
+import { AuthResponse } from '../models/response/AuthResponse'
 
 interface IStore {
     user: IUser
     isAuth: boolean,
     login: (email: string, password: string) => Promise<void>,
     registration: (email: string, password: string) => Promise<void>,
-    logout: () => Promise<void>
+    logout: () => Promise<void>,
+    checkAuth: () => Promise<void>
     isLoading: boolean
-    errors: any[] //any type ???
+    errors: IError[]
 }
 
-// interface IError {
-//     msg: string
-//     path?: string
-//     type?: string
-//     value?: string
+export interface IError {
+    msg: string
+    path?: string
+    type?: string
+    value?: string
 
-// }
+}
 
 
 export const useStore = create<IStore>()((set) => ({
@@ -43,7 +46,8 @@ export const useStore = create<IStore>()((set) => ({
             set({ user: response.data.user })
             set({ isLoading: false })
         } catch (error) {
-            return ErrorHandler(error)
+            const errors = ErrorHandler(error) as IError[]
+            set({ errors})
 
         } finally {
             set({ isLoading: false })
@@ -59,8 +63,8 @@ export const useStore = create<IStore>()((set) => ({
             set({ user: response.data.user })
             set({ isLoading: false })
         } catch (error) {
-            return ErrorHandler(error)
-
+            const errors = ErrorHandler(error) as IError[]
+            set({ errors})
 
         } finally {
             set({ isLoading: false })
@@ -68,15 +72,27 @@ export const useStore = create<IStore>()((set) => ({
     },
     logout: async () => {
         try {
-            set({ isLoading: true })
             await AuthService.logout()
             localStorage.removeItem('accessToken')
             set({ isAuth: false })
             set({ user: {} as IUser })
             set({ isLoading: false })
         } catch (error) {
-           return ErrorHandler(error)
+          ErrorHandler(error) as IError[]
+        }
+    },
+    checkAuth: async () => {
+        try {
+            set({ isLoading: true })
+            const response = await axios.get<AuthResponse>(`${import.meta.env.VITE_APP_API_URL}/refresh`, {
+                withCredentials: true
+            })
 
+            localStorage.setItem('accessToken', response.data.accessToken)
+            set({ isAuth: true })
+            set({ user: response.data.user })
+        } catch (error) {
+            ErrorHandler(error) as IError[]
         } finally {
             set({ isLoading: false })
         }
