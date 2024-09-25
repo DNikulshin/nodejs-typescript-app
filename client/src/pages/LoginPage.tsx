@@ -1,21 +1,25 @@
-
+import { FC } from 'react'
+import { Link, Navigate } from 'react-router-dom'
 import { Form } from "../components/AppForm"
 import { useStore } from "../store/store"
 
-export const LoginPage = () => {
-  const isLoading = useStore(state => state.isLoading)
+export const LoginPage: FC = () => {
 
-  if (isLoading) {
-    return (
-      <div>Загрузка...</div>
-    )
+  const isAuth = useStore(state => state.isAuth)
+
+  if(isAuth) {
+    return <Navigate to='/' replace/>
   }
 
   return (
     <div>
       <h1>LoginPage</h1>
 
-      <Form title="Авторизация" type="login" buttonText="Войти"/>
+      <Form title="Авторизация" type="login" buttonText="Войти">
+        <p>Нет аккауна ? </p>
+        <Link to='/registration'>Регистрация</Link>
+      </Form>
+
 
     </div>
   )

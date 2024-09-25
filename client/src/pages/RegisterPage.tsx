@@ -1,20 +1,16 @@
+import { FC } from 'react'
+import { Link } from 'react-router-dom'
 import { Form } from "../components/AppForm"
-import { useStore } from "../store/store"
 
+export const RegisterPage: FC = () => {
 
-export const RegisterPage = () => {
-
-  const isLoading = useStore(state => state.isLoading)
-
-  if (isLoading) {
-    return (
-      <div>Загрузка...</div>
-    )
-  }
   return (
     <div>
       <h1>RegisterPage</h1>
-      <Form title="Регистрация" type="regisration" buttonText="Зарегистрироваться"/>
+      <Form title="Регистрация" type="registration" buttonText="Зарегистрироваться">
+        <p>Есть аккаунт ? </p>
+        <Link to='/login'>Авторизация</Link>
+      </Form>
       </div>
   )
 }
