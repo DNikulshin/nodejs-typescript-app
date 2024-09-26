@@ -1,6 +1,4 @@
-import { FC, useState } from 'react'
-import UserService from '../services/UserService'
-import { IUser } from '../models/User'
+import { FC } from 'react'
 import { useStore } from '../store/store'
 
 

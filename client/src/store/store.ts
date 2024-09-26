@@ -14,7 +14,7 @@ interface IStore {
   registration: ({ email, password, name }: RegistrationProps) => Promise<void>,
   logout: () => Promise<void>,
   checkAuth: () => Promise<void>,
-  getUsers: () => Promise<IUser[]>
+  getUsers: () => Promise<void>
   isLoading: boolean
   errors: IError[]
 }

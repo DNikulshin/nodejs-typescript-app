@@ -1,14 +1,11 @@
-import { AxiosResponse } from "axios";
-import { AuthResponse } from '../models/response/AuthResponse.ts'
-import { IUser } from "../models/User";
-import $api from "../http";
-import { LoginProps } from './AuthService.ts'
-
+import { AxiosResponse } from "axios"
+import $api from "../http"
+import { IUser } from '../models/User.ts'
 
 export default class UserService {
-    static async fetchUsers(): Promise<AxiosResponse<AuthResponse>> {
+    static async fetchUsers(): Promise<AxiosResponse<IUser[]>> {
 
-        return  $api.get<AuthResponse>('/users')
+        return  $api.get<IUser[]>('/users')
 
     }
 }
