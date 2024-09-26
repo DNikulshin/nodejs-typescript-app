@@ -7,6 +7,7 @@ import { useStore } from './store/store.ts'
 function App() {
   const checkAuth = useStore(state => state.checkAuth)
   const isLoading = useStore(state => state.isLoading)
+  const isAuth = useStore(state => state.isAuth)
 
   useEffect(() => {
     if (localStorage.getItem('accessToken')) checkAuth()
@@ -18,6 +19,9 @@ function App() {
       <div className="w-full h-screen flex justify-center items-center text-2xl">Загрузка...</div>
     )
   }
+
+  console.log('isAuth ', isAuth)
+
   return (
     <>
       <RouterProvider router={router}/>

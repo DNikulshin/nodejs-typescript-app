@@ -5,22 +5,11 @@ import { useStore } from '../store/store'
 
 
 export const HomePage: FC = () => {
-  const [users, setUsers] = useState<IUser[]>([])
+  const userList = useStore(state => state.userList)
+  const getUsers = useStore(state => state.getUsers)
   const user = useStore(state => state.user)
   const logout = useStore(state => state.logout)
   const isLoading = useStore(state => state.isLoading)
-  const getUsers = async () => {
-
-    try {
-      const response = await UserService.fetchUsers()
-
-      setUsers(response.data)
-    } catch (e) {
-      console.log(e)
-
-    }
-
-  }
 
   if (isLoading) {
     return (
@@ -40,7 +29,7 @@ export const HomePage: FC = () => {
 
 
       {
-        users.map(user =>
+        userList.map(user =>
           <div key={user.id}>{user?.email}</div>,
         )
       }
