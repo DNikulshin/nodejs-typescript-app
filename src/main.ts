@@ -1,7 +1,6 @@
 import express from 'express'
 import path from 'path'
 import {createWriteStream} from 'fs'
-//import ip from 'ip'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import routes from './router/index.js'
@@ -19,10 +18,12 @@ app.use(morgan('combined', {
   skip: function (req, res) { return res.statusCode < 500 },
   stream: accessLogStream
 }))
+
 app.use(cors({
   credentials: true,
   origin: process.env.CLIENT_URL
 }))
+
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))

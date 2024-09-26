@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import testController from '../controllers/test.controller.js'
 import userController from '../controllers/user.controller.js'
 import { body } from 'express-validator'
 import authMiddleware from '../midddleware/auth.middleware.js'
@@ -8,7 +9,7 @@ import {
   LOGIN_PATH,
   LOGOUT_PATH,
   REFRESH_PATH,
-  REGISTRATION_PATH,
+  REGISTRATION_PATH, TEST_PATH,
   USERS_PATH,
   USERS_PATH_BY_ID,
 } from '../constants/index.js'
@@ -41,6 +42,7 @@ router.get(ACTIVATE_PATH, userController.activate)
 router.get(REFRESH_PATH, userController.refresh)
 router.get(USERS_PATH, roleMiddleware(['ADMIN']), authMiddleware, userController.getUsers)
 router.delete(USERS_PATH_BY_ID, roleMiddleware(['ADMIN']), authMiddleware, userController.removeUserByID)
+router.get(TEST_PATH, testController.alive)
 
 
 export default router
