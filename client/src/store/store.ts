@@ -1,15 +1,15 @@
 import { create } from 'zustand'
 import axios from 'axios'
 import { IUser } from '../models/User'
-import AuthService from '../services/AuthService'
+import AuthService, { LoginProps, RegistrationProps } from '../services/AuthService'
 import ErrorHandler from '../exeptions/ErrorHandler'
 import { AuthResponse } from '../models/response/AuthResponse'
 
 interface IStore {
     user: IUser
     isAuth: boolean,
-    login: (email: string, password: string) => Promise<void>,
-    registration: (email: string, password: string, name?: string) => Promise<void>,
+    login: ({ email, password}: LoginProps) => Promise<void>,
+    registration: ({email, password, name}: RegistrationProps) => Promise<void>,
     logout: () => Promise<void>,
     checkAuth: () => Promise<void>
     isLoading: boolean
@@ -25,6 +25,7 @@ export interface IError {
 }
 
 
+
 export const useStore = create<IStore>()((set) => ({
         user: {
             id: '',
@@ -35,11 +36,11 @@ export const useStore = create<IStore>()((set) => ({
         isLoading: false,
         errors: [],
 
-        login: async (email, password) => {
+        login: async ({ email, password }) => {
             try {
                 set({ errors: [] })
                 set({ isLoading: true })
-                const response = await AuthService.login(email, password)
+                const response = await AuthService.login({ email, password })
                 set({ isAuth: true })
                 localStorage.setItem('accessToken', response.data.accessToken)
                 set({ user: response.data.user })
@@ -52,11 +53,11 @@ export const useStore = create<IStore>()((set) => ({
                 set({ isLoading: false })
             }
         },
-        registration: async (email, password, name) => {
+        registration: async ({ email, password, name }) => {
             try {
                 set({ errors: [] })
                 set({ isLoading: true })
-                const response = await AuthService.registration(email, password, name)
+                const response = await AuthService.registration({ email, password, name })
                 set({ isAuth: true })
                 localStorage.setItem('accessToken', response.data.accessToken)
 

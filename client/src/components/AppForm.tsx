@@ -80,7 +80,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
           type="submit"
           disabled={!email || !password}
           className="px-2 py-2 bg-green-400 shadow-md disabled:bg-slate-200"
-          onClick={() => login(email, password)}>
+          onClick={() => login({ email, password })}>
           {buttonText}
         </button>}
 
@@ -89,7 +89,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
           type="submit"
           disabled={!email || !password}
           className="px-2 py-2 bg-green-400 shadow-md  disabled:bg-slate-200"
-          onClick={() => registration(email, password)}
+          onClick={() => registration({ email, password, name })}
         >
           {buttonText}
         </button>}

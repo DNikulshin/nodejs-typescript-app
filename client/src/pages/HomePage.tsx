@@ -33,7 +33,7 @@ export const HomePage: FC = () => {
       {/* <div>{errors.map(err =>
       <span>{err?.msg}</span>
     )}</div> */}
-      <div>{user.email}</div>
+      <div>{user?.email}</div>
       <strong>{user?.name}</strong>
       <button className="px-2 py-2 bg-red-400 shadow-md" onClick={() => logout()}>Выйти</button>
       <button className="px-2 py-2 bg-green-400 shadow-md" onClick={getUsers}>Получить список пользователей</button>
@@ -41,7 +41,7 @@ export const HomePage: FC = () => {
 
       {
         users.map(user =>
-          <div key={user.id}>{user.email}</div>,
+          <div key={user.id}>{user?.email}</div>,
         )
       }
 
