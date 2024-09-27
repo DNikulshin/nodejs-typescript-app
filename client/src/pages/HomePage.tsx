@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { useStore } from '../store/store'
+import { Button } from '@/components/ui/button'
 
 
 export const HomePage: FC = () => {
@@ -22,8 +23,8 @@ export const HomePage: FC = () => {
     )}</div> */}
       <div>{user?.email}</div>
       <strong>{user?.name}</strong>
-      <button className="px-2 py-2 bg-red-400 shadow-md" onClick={() => logout()}>Выйти</button>
-      <button className="px-2 py-2 bg-green-400 shadow-md" onClick={getUsers}>Получить список пользователей</button>
+      <Button className="px-2 py-2 bg-red-400 shadow-md text-slate-800  hover:bg-red-300" onClick={() => logout()}>Выйти</Button>
+      <Button className="px-2 py-2 bg-green-400 shadow-md  text-slate-800  hover:bg-green-300" onClick={getUsers}>Получить список пользователей</Button>
 
 
       {
