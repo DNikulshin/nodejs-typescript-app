@@ -28,6 +28,9 @@ export  default function authMiddleware (req: RequestWithUser, res: Response, ne
 
     const userData = tokenService.validateAccessToken(accsessToken) as unknown as IUserDto
 
+
+    console.log('authMiddleware', userData);
+    
     if (!userData) {
       return next(ApiError.UnauthorizedError())
     }

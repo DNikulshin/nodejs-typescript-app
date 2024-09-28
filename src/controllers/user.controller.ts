@@ -15,7 +15,11 @@ class UserController {
             }
             const { email, password, name, role} = req.body
 
+
+           
+
             const userData = await userService.registration({ email, password, name, role})
+            if(userData.user.role)
 
             res.cookie(
                 process.env.REFRESH_TOKEN,

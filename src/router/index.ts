@@ -40,7 +40,7 @@ router.post(LOGIN_PATH,
 router.post(LOGOUT_PATH, userController.logout)
 router.get(ACTIVATE_PATH, userController.activate)
 router.get(REFRESH_PATH, userController.refresh)
-router.get(USERS_PATH, roleMiddleware(['ADMIN']), authMiddleware, userController.getUsers)
+router.get(USERS_PATH, roleMiddleware(['ADMIN', 'USER']), authMiddleware, userController.getUsers)
 router.delete(USERS_PATH_BY_ID, roleMiddleware(['ADMIN']), authMiddleware, userController.removeUserByID)
 router.get(TEST_PATH, testController.alive)
 
