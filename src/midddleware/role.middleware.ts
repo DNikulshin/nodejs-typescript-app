@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { ApiError } from '../exeptions/api.error.js'
+import { Role } from '@prisma/client'
+
+
+// interface roleMiddlewareProps {
+//     name: string[]
+// }
 
 export default function (roles: string[]) {
     return function (req: Request, res: Response, next: NextFunction) {
@@ -23,13 +29,25 @@ export default function (roles: string[]) {
             }
 
 
-            const {role:  userRole }  = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET) as JwtPayload
+            const {role:  userRoles }  = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET) as JwtPayload
 
+      console.log('userRole', userRoles);
+
+      if(!userRoles.length) {
+        return next(ApiError.ForbiddenError())
+      }
       
-            if (!roles.includes(userRole)) {
-                return next(ApiError.ForbiddenError())
-            }
 
+            for(const role of userRoles) {
+
+                if(!roles.includes(role.name)) {
+                    console.log(role.name);
+                    
+                    return next(ApiError.ForbiddenError())
+                }
+
+            }
+ 
             next()
         } catch (error) {
             return next(ApiError.UnauthorizedError())

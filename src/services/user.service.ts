@@ -1,4 +1,4 @@
-import { $Enums, User } from '@prisma/client'
+import { User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 import prismaClient from '../../prisma/prisma.client.js'
@@ -25,6 +25,24 @@ class UserService {
       throw ApiError.BadRequest(`Укажите email или пароль`)
     }
 
+    const findRole = await prismaClient.role.findUnique({
+      where: {
+        name: role,
+      },
+      select: {
+        id: true,
+        name: true
+      }
+    })
+
+    if(!findRole?.name) {
+      await prismaClient.role.create({
+      data: {
+        name: role
+      }
+     })
+    }
+
     const hashedPassword = await bcrypt.hash(password, 5)
 
 
@@ -35,7 +53,11 @@ class UserService {
         password: hashedPassword,
         name,
         activationLink,
-        role: $Enums.Role[role as keyof typeof $Enums.Role] ?? $Enums.Role['USER']
+        role: {
+          connect: [
+          {  name: role}
+          ]
+        }
       },
       select: {
         id: true,
