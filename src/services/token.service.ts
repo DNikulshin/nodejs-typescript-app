@@ -38,7 +38,7 @@ class TokenService {
 
     async saveToken(userId: string, refreshToken: string) {
         const tokenData = await prismaClient.token.findUnique({
-            where: { userId }
+            where: { userId, refreshToken }
         })
 
         if (!tokenData) {
@@ -52,9 +52,11 @@ class TokenService {
 
         await prismaClient.token.update({
             where: {
-                userId
+                userId,
+                refreshToken
             },
             data: {
+                userId,
                 refreshToken
             }
         })
@@ -62,32 +64,24 @@ class TokenService {
 
     async removeToken(refreshToken: string) {
 
-        console.log('removeToken' , refreshToken);
         if (!refreshToken) {
             return null
         }
 
-        const tokenData = await prismaClient.token.delete({
+        return prismaClient.token.delete({
             where: {
                 refreshToken
             }
         })
-        console.log('removeToken' ,tokenData);
-        
-
-        return tokenData
 
     }
 
     async findToken(refreshToken: string) {
-        const tokenData = await prismaClient.token.findUnique({
+        return prismaClient.token.findUnique({
             where: {
                 refreshToken
             }
         })
-       console.log('findToken', tokenData);
-
-        return tokenData
     }
 
 

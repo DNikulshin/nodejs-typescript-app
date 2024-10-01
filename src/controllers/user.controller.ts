@@ -16,10 +16,9 @@ class UserController {
             const { email, password, name, role} = req.body
 
 
-           
 
-            const userData = await userService.registration({ email, password, name, role})
-            if(userData.user.role)
+
+            const userData = await userService.registration({ email, password, name})
 
             res.cookie(
                 process.env.REFRESH_TOKEN,
@@ -28,7 +27,6 @@ class UserController {
                 httpOnly: true,
                 // secure: true //if https
             })
-
             return res.json(userData)
 
         } catch (e) {
@@ -122,7 +120,7 @@ class UserController {
         }
     }
 
-    
+
     async removeUserByID(req: Request, res: Response, next: NextFunction) {
         const {id } = req.params
         try {

@@ -11,8 +11,8 @@ import tokenService from './token.service.js'
 
 class UserService {
 
-  async registration({ email, password, name, role = 'USER'}: Omit<IUserDto, 'id'>) {
-  
+  async registration({ email, password, name}: Omit<IUserDto, 'id'>) {
+
     const candidate = await prismaClient.user.findUnique({
       where: { email },
     })
@@ -27,7 +27,7 @@ class UserService {
 
     const findRole = await prismaClient.role.findUnique({
       where: {
-        name: role,
+        name: "USER",
       },
       select: {
         id: true,
@@ -35,10 +35,10 @@ class UserService {
       }
     })
 
-    if(!findRole?.name) {
+    if(!findRole) {
       await prismaClient.role.create({
       data: {
-        name: role
+        name: 'USER'
       }
      })
     }
@@ -55,7 +55,7 @@ class UserService {
         activationLink,
         role: {
           connect: [
-          {  name: role}
+            {name: 'USER'}
           ]
         }
       },
@@ -127,7 +127,7 @@ class UserService {
     const userDto = new UserDto(user)
     const tokens = tokenService.generateTokens({ ...userDto })
     await tokenService.saveToken(user.id, tokens.refreshToken)
-
+    console.log('UserService login: ', userDto, tokens)
     return {
       ...tokens,
       user: userDto,
@@ -154,7 +154,7 @@ class UserService {
     }
 
     const user = await prismaClient.user.findUnique({
-      where: { id: userData.id },
+      where: { id: userData.id,  },
       select: {
         id: true,
         email: true,
@@ -162,6 +162,7 @@ class UserService {
         name: true,
         role: true,
         posts: true
+
       }
     }) as unknown as IUserDto
 
