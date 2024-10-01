@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { connect } from 'http2'
 import jwt from 'jsonwebtoken'
 
 const prismaClient = new PrismaClient()
@@ -44,7 +45,13 @@ class TokenService {
         if (!tokenData) {
             await prismaClient.token.create({
                 data: {
-                    userId,
+                    user: {
+
+                        connect: {
+                            id: userId
+                        }
+
+                    },
                     refreshToken
                 }
             })
@@ -56,7 +63,11 @@ class TokenService {
                 refreshToken
             },
             data: {
-                userId,
+                user: {
+                    connect: {
+                        id: userId
+                    }
+                },
                 refreshToken
             }
         })

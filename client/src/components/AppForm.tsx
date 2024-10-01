@@ -1,15 +1,16 @@
 import { ChangeEvent, FC, FormEventHandler, ReactNode, useState } from 'react'
-import { useStore } from '../store/store'
+import { IError, useStore } from '../store/store'
 
 interface FormPropsTypes {
   title: string
   type: 'login' | 'registration',
   buttonText: string,
-  children?: ReactNode
+  children?: ReactNode,
+  errors: IError[]
 }
 
 
-export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) => {
+export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children, errors }) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
@@ -17,8 +18,6 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
 
   const login = useStore(state => state.login)
   const registration = useStore(state => state.registration)
-  const errors = useStore(state => state.errors)
-
 
   const onSubmit: FormEventHandler = (e) => {
     e.preventDefault()
@@ -38,11 +37,11 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
     setName(e.target.value)
   }
 
-  console.log('errors', errors)
   return (
-    <form className="flex flex-col w-full h-screen px-4 justify-center items-center gap-4" onSubmit={onSubmit}>
+    <form className="flex flex-col w-full h-full px-4 items-center gap-5 mt-24" onSubmit={onSubmit}>
       <h1 className="text-3xl">{title}</h1>
-      <div className='flex flex-col justify-center items-center'>
+
+      <div className='flex flex-col justify-center items-center gap-2'>
       <label>
         <input
           className="bg-gray-200 mb-2 px-2 py-2 shadow-md"
@@ -63,7 +62,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
         )}
       </div>
 
-      <div className='flex flex-col justify-center items-center'>
+      <div className='flex flex-col justify-center items-center gap-2'>
       <label>
         <input
           className=" bg-gray-200 px-2 py-2 shadow-md"
@@ -102,7 +101,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
         <button
           type="submit"
           disabled={!email || !password}
-          className="px-2 py-2 bg-green-400 shadow-md disabled:bg-slate-200"
+          className="px-2 py-2 bg-green-400 shadow-md font-medium disabled:bg-slate-200"
           onClick={() => login({ email, password })}>
           {buttonText}
         </button>}
@@ -111,7 +110,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
         <button
           type="submit"
           disabled={!email || !password}
-          className="px-2 py-2 bg-green-400 shadow-md  disabled:bg-slate-200"
+          className="px-2 py-2 bg-green-400 shadow-md font-medium  disabled:bg-slate-200"
           onClick={() => registration({ email, password, name })}
         >
           {buttonText}

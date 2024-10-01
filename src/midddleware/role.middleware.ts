@@ -29,21 +29,14 @@ export default function (roles: string[]) {
             }
 
 
-            const {role:  userRoles }  = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET) as JwtPayload
+            const { role: userRoles } = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET) as JwtPayload
 
 
-      if(!userRoles.length) {
-        return next(ApiError.ForbiddenError())
-      }
+            const isincludesRole = userRoles.every((role: { name: string }) => roles.includes(role.name))
 
 
-            for(const role of userRoles) {
-
-                if(!roles.includes(role.name)) {
-
-                    return next(ApiError.ForbiddenError())
-                }
-
+            if (!isincludesRole) {
+                return next(ApiError.ForbiddenError())
             }
 
             next()

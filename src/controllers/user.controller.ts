@@ -13,19 +13,16 @@ class UserController {
             if (!errors.isEmpty()) {
                 return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
             }
-            const { email, password, name, role} = req.body
+            const { email, password, name } = req.body
 
-
-
-
-            const userData = await userService.registration({ email, password, name})
+            const userData = await userService.registration({ email, password, name })
 
             res.cookie(
                 process.env.REFRESH_TOKEN,
                 userData.refreshToken, {
                 maxAge: MAX_AGE_REFRESH_TOKEN,
                 httpOnly: true,
-                // secure: true //if https
+                secure: true //if https
             })
             return res.json(userData)
 
@@ -50,7 +47,7 @@ class UserController {
                 userData.refreshToken, {
                 maxAge: MAX_AGE_REFRESH_TOKEN,
                 httpOnly: true,
-                // secure: true //if https
+                secure: true //if https
 
             })
 
@@ -120,9 +117,8 @@ class UserController {
         }
     }
 
-
     async removeUserByID(req: Request, res: Response, next: NextFunction) {
-        const {id } = req.params
+        const { id } = req.params
         try {
 
             const user = await userService.removeUserByID(id)
@@ -133,8 +129,6 @@ class UserController {
 
         }
     }
-
-
 
 }
 

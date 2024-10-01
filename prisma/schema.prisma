@@ -82,7 +82,7 @@ model Post {
 model Token {
   id           String @id @default(uuid())
   user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String @unique @map("user_id")
+  userId       String @map("user_id")
   refreshToken String @unique @map("refresh_token")
 
   createdAt DateTime @default(now()) @map("created_at")
