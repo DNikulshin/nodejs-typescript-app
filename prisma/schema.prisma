@@ -22,6 +22,7 @@ datasource db {
 model Division {
   id   String @id @default(uuid())
   name String
+  description String?
   user User[]
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -33,8 +34,9 @@ model Division {
 
 model Role {
   id        String   @id @default(uuid())
-  name      String   @unique @default("USER")
+  name      String   @unique
   user      User[]
+  
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -80,7 +82,7 @@ model Post {
 model Token {
   id           String @id @default(uuid())
   user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String @unique @map("user_id")
+  userId       String @map("user_id")
   refreshToken String @unique @map("refresh_token")
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -89,8 +91,3 @@ model Token {
   // @@schema("token")
   @@map("tokens")
 }
-
-// enum Role {
-//   USER
-//   ADMIN
-// }

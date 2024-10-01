@@ -1,15 +1,16 @@
 import { ChangeEvent, FC, FormEventHandler, ReactNode, useState } from 'react'
-import { useStore } from '../store/store'
+import { IError, useStore } from '../store/store'
 
 interface FormPropsTypes {
   title: string
   type: 'login' | 'registration',
   buttonText: string,
-  children?: ReactNode
+  children?: ReactNode,
+  errors: IError[]
 }
 
 
-export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) => {
+export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children, errors }) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
@@ -17,7 +18,6 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
 
   const login = useStore(state => state.login)
   const registration = useStore(state => state.registration)
-
 
   const onSubmit: FormEventHandler = (e) => {
     e.preventDefault()
@@ -38,8 +38,10 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
   }
 
   return (
-    <form className="flex flex-col w-full h-screen px-4 justify-center items-center gap-4" onSubmit={onSubmit}>
+    <form className="flex flex-col w-full h-full px-4 items-center gap-5 mt-24" onSubmit={onSubmit}>
       <h1 className="text-3xl">{title}</h1>
+
+      <div className='flex flex-col justify-center items-center gap-2'>
       <label>
         <input
           className="bg-gray-200 mb-2 px-2 py-2 shadow-md"
@@ -50,7 +52,17 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
           autoComplete="email"
         />
       </label>
+        {errors && errors.map(error => {
+            if(error.path === 'email') {
+              return (
+                <small  key={error.path} className="text-red-500">{error.msg}</small>
+              )
+            }
+          }
+        )}
+      </div>
 
+      <div className='flex flex-col justify-center items-center gap-2'>
       <label>
         <input
           className=" bg-gray-200 px-2 py-2 shadow-md"
@@ -61,6 +73,16 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
           autoComplete="current-password"
         />
       </label>
+      {errors && errors.map(error => {
+          if(error.path === 'password') {
+            return (
+              <small key={error.path} className="text-red-500">{error.msg}</small>
+            )
+          }
+        }
+      )}
+      </div>
+
       {type === 'registration' &&
         <label>
           <input
@@ -79,7 +101,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
         <button
           type="submit"
           disabled={!email || !password}
-          className="px-2 py-2 bg-green-400 shadow-md disabled:bg-slate-200"
+          className="px-2 py-2 bg-green-400 shadow-md font-medium disabled:bg-slate-200"
           onClick={() => login({ email, password })}>
           {buttonText}
         </button>}
@@ -88,7 +110,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
         <button
           type="submit"
           disabled={!email || !password}
-          className="px-2 py-2 bg-green-400 shadow-md  disabled:bg-slate-200"
+          className="px-2 py-2 bg-green-400 shadow-md font-medium  disabled:bg-slate-200"
           onClick={() => registration({ email, password, name })}
         >
           {buttonText}
