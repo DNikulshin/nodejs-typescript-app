@@ -5,12 +5,11 @@ interface FormPropsTypes {
   title: string
   type: 'login' | 'registration',
   buttonText: string,
-  children?: ReactNode,
-  errors: IError[]
+  children?: ReactNode
 }
 
 
-export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children, errors }) => {
+export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
@@ -18,6 +17,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children, er
 
   const login = useStore(state => state.login)
   const registration = useStore(state => state.registration)
+  const errors = useStore(state => state.errors)
 
   const onSubmit: FormEventHandler = (e) => {
     e.preventDefault()
