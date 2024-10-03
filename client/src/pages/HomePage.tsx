@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { useStore } from '../store/store'
 import { Button } from '@/components/ui/button'
+import { UserPosts } from '@/components/user/UserPosts'
 
 
 export const HomePage: FC = () => {
@@ -17,7 +18,7 @@ export const HomePage: FC = () => {
   }
 
   return (
-    <div className="flex w-full h-full flex-col justify-center items-center gap-3">
+    <div className="flex w-full h-full flex-col justify-center items-center gap-3 mb-5">
       <h1>Home</h1>
       {/* <div>{errors.map(err =>
       <span>{err?.msg}</span>
@@ -48,6 +49,9 @@ export const HomePage: FC = () => {
           </div>,
         )
       }
+      <hr className='w-1'/>
+
+      <UserPosts />
 
     </div>
   )

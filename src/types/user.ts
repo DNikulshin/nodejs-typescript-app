@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client"
+import { Role, Token } from "@prisma/client"
 
 export interface IUserDto {
     id: string
@@ -6,5 +6,6 @@ export interface IUserDto {
     isActivated?: boolean | null
     name?: string | null
     role?: string
-    password?: string
+    password: string
+    token?: Token[]
   }

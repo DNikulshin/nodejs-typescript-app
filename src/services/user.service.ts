@@ -7,6 +7,7 @@ import { ApiError } from '../exeptions/api.error.js'
 import { IUserDto } from '../types/user.js'
 import mailService from './mail.service.js'
 import tokenService from './token.service.js'
+import { UserLoginDto } from '../dtos/userLogin.dto.js'
 
 
 class UserService {
@@ -72,7 +73,7 @@ class UserService {
     const userDto = new UserDto(user)
     await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
     const tokens = tokenService.generateTokens({ ...userDto })
-    await tokenService.saveToken(user.id, tokens.refreshToken)
+    const test = await tokenService.saveToken(user.id, tokens.refreshToken)
 
     return {
       ...tokens,
@@ -110,9 +111,15 @@ class UserService {
         password: true,
         name: true,
         role: true,
-        posts: true
+        posts: true,
+        token: {
+          select: {
+            id: true
+          }
+        }
       }
-    }) as unknown as User
+    }) as unknown as IUserDto
+
 
     if (!user) {
       throw ApiError.BadRequest(`Неверный логин или пароль`)
@@ -124,13 +131,14 @@ class UserService {
       throw ApiError.BadRequest(`Неверный логин или пароль`)
     }
 
-    const userDto = new UserDto(user)
-    const tokens = tokenService.generateTokens({ ...userDto })
-    await tokenService.saveToken(user.id, tokens.refreshToken)
+    const userLoginDto = new UserLoginDto(user)
+    const tokens = tokenService.generateTokens({ ...userLoginDto })
   
+    await tokenService.saveToken(user.id, tokens.refreshToken)
+
     return {
       ...tokens,
-      user: userDto,
+      user: userLoginDto,
     }
 
   }
@@ -149,28 +157,39 @@ class UserService {
     const userData = tokenService.validateRefreshToken(refreshToken) as IUserDto
     const tokenFromDb = await tokenService.findToken(refreshToken)
 
+    console.log('tokenFromDb', tokenFromDb);
+    
+
     if (!userData || !tokenFromDb) {
       throw ApiError.UnauthorizedError()
     }
 
-    const user = await prismaClient.user.findUnique({
-      where: { id: userData.id,  },
+    const user = await prismaClient.user.findFirst({
+      where: { id: userData.id  },
       select: {
         id: true,
         email: true,
         isActivated: true,
         name: true,
         role: true,
-        posts: true
+        posts: true,
+        token: {
+          select: {
+            id: true
+          }
+        }
 
       }
     }) as unknown as IUserDto
 
 
-    const userDto = new UserDto(user)
+    const userDto = new UserLoginDto(user)
     const tokens = tokenService.generateTokens({ ...userDto })
-    await tokenService.saveToken(userDto.id, tokens.refreshToken)
+    await tokenService.saveToken(user.id , tokens.refreshToken, tokenFromDb.id)
 
+
+    console.log(user.token);
+    
     return {
       ...tokens,
       user: userDto,

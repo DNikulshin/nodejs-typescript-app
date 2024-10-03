@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, FormEventHandler, ReactNode, useState } from 'react'
-import { IError, useStore } from '../store/store'
+import { useStore } from '../store/store'
 
 interface FormPropsTypes {
   title: string
