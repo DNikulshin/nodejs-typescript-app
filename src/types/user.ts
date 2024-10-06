@@ -5,7 +5,7 @@ export interface IUserDto {
     email: string
     isActivated?: boolean | null
     name?: string | null
-    role?: string
+    roles?: Role[]
     password: string
-    token?: Token[]
+    tokens?: Token[]
   }

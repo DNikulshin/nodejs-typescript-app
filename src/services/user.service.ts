@@ -54,7 +54,7 @@ class UserService {
         password: hashedPassword,
         name,
         activationLink,
-        role: {
+        roles: {
           connect: [
             {name: 'USER'}
           ]
@@ -65,7 +65,7 @@ class UserService {
         email: true,
         isActivated: true,
         name: true,
-        role: true,
+        roles: true,
         posts: true
       }
     }) as unknown as IUserDto
@@ -73,8 +73,7 @@ class UserService {
     const userDto = new UserDto(user)
     await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
     const tokens = tokenService.generateTokens({ ...userDto })
-    const test = await tokenService.saveToken(user.id, tokens.refreshToken)
-
+ 
     return {
       ...tokens,
       user: userDto,
@@ -110,13 +109,8 @@ class UserService {
         isActivated: true,
         password: true,
         name: true,
-        role: true,
-        posts: true,
-        token: {
-          select: {
-            id: true
-          }
-        }
+        roles: true,
+        posts: true
       }
     }) as unknown as IUserDto
 
@@ -145,51 +139,42 @@ class UserService {
 
 
   async logout(refreshToken: string) {
+
     return await tokenService.removeToken(refreshToken)
   }
 
 
   async refresh(refreshToken: string) {
+
     if (!refreshToken) {
       throw ApiError.UnauthorizedError()
     }
 
-    const userData = tokenService.validateRefreshToken(refreshToken) as IUserDto
-    const tokenFromDb = await tokenService.findToken(refreshToken)
+    const userData =  tokenService.validateRefreshToken(refreshToken) as IUserDto
 
-    console.log('tokenFromDb', tokenFromDb);
-    
+    const tokensFromDb = await tokenService.findAllUserToken(userData?.id ?? '')
 
-    if (!userData || !tokenFromDb) {
+    if (!userData || !tokensFromDb?.tokens.length) {
       throw ApiError.UnauthorizedError()
     }
 
-    const user = await prismaClient.user.findFirst({
-      where: { id: userData.id  },
+    const user = await prismaClient.user.findUnique({
+      where: { id: userData.id },
       select: {
         id: true,
         email: true,
         isActivated: true,
         name: true,
-        role: true,
-        posts: true,
-        token: {
-          select: {
-            id: true
-          }
-        }
-
+        roles: true,
+        posts: true
       }
     }) as unknown as IUserDto
 
 
     const userDto = new UserLoginDto(user)
     const tokens = tokenService.generateTokens({ ...userDto })
-    await tokenService.saveToken(user.id , tokens.refreshToken, tokenFromDb.id)
+    await tokenService.saveToken(user.id , tokens.refreshToken)
 
-
-    console.log(user.token);
-    
     return {
       ...tokens,
       user: userDto,
@@ -203,7 +188,7 @@ class UserService {
         email: true,
         isActivated: true,
         name: true,
-        role: true,
+        roles: true,
         posts: true,
       },
     })

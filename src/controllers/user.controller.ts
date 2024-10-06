@@ -89,13 +89,14 @@ class UserController {
         try {
 
             const refreshToken: string = req.cookies[process.env.REFRESH_TOKEN]
+         
             const userData = await userService.refresh(refreshToken)
             res.cookie(
                 process.env.REFRESH_TOKEN,
                 userData.refreshToken, {
                 maxAge: MAX_AGE_REFRESH_TOKEN,
                 httpOnly: true,
-                // secure: true //if https
+                secure: true //if https
             })
 
             return res.json(userData)

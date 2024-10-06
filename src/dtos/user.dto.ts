@@ -1,4 +1,5 @@
 
+import { Role, Token } from "@prisma/client"
 import { IUserDto } from "../types/user.js"
 
 export class UserDto {
@@ -6,9 +7,9 @@ export class UserDto {
   email
   isActivated
   name
-  role
+  roles? : Role[]
   password?
-  token?
+  tokens? : Token[]
 
 
   constructor(model: IUserDto) {
@@ -16,8 +17,8 @@ export class UserDto {
     this.email = model.email
     this.isActivated = model.isActivated
     this.name = model.name
-    this.role = model.role
+    this.roles = model.roles
     this.password = model.password
-    this.token = model.token
+    this.tokens = model.tokens
   }
 }

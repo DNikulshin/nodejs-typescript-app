@@ -52,7 +52,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
           autoComplete="email"
         />
       </label>
-        {errors && errors.map(error => {
+        {Array.isArray(errors) && errors.map(error => {
             if(error.path === 'email') {
               return (
                 <small  key={error.path} className="text-red-500">{error.msg}</small>
@@ -73,7 +73,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) 
           autoComplete="current-password"
         />
       </label>
-      {errors && errors.map(error => {
+      {Array.isArray(errors) && errors.map(error => {
           if(error.path === 'password') {
             return (
               <small key={error.path} className="text-red-500">{error.msg}</small>

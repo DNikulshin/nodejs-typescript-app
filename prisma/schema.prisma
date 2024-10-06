@@ -20,10 +20,10 @@ datasource db {
 // }
 
 model Division {
-  id   String @id @default(uuid())
-  name String
+  id          String  @id @default(uuid())
+  name        String
   description String?
-  user User[]
+  user        User[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -33,10 +33,10 @@ model Division {
 }
 
 model Role {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  user      User[]
-  
+  id   String @id @default(uuid())
+  name String @unique
+  user User[]
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -53,9 +53,9 @@ model User {
   activationLink String?   @map("activation_link")
   division       Division? @relation(fields: [divisionId], references: [id])
   divisionId     String?   @map("division_id")
-  role           Role[]
+  roles          Role[]
   posts          Post[]
-  token          Token[]
+  tokens         Token[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

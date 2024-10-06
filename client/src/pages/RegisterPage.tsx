@@ -8,7 +8,7 @@ export const RegisterPage: FC = () => {
   const isAuth = useStore(state => state.isAuth)
 
   if (isAuth) {
-    return <Navigate to='/' replace />
+    return <Navigate to='/login' replace />
   }
   return (
     <main className="overflow-hidden">

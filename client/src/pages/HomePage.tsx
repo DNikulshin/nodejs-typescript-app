@@ -17,6 +17,7 @@ export const HomePage: FC = () => {
     )
   }
 
+
   return (
     <div className="flex w-full h-full flex-col justify-center items-center gap-3 mb-5">
       <h1>Home</h1>
@@ -26,9 +27,9 @@ export const HomePage: FC = () => {
       <div>Email: {user?.email}</div>
       <strong>Name: {user?.name}</strong>
       <strong className="flex gap-2">
-        <span>Role:</span>
+        <span>Roles:</span>
         [
-        {user?.role?.map(role =>
+        {user?.roles?.map(role =>
           <span key={role.id}>
             <span>{role.name}</span>,
           </span>

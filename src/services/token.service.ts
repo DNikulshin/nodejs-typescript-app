@@ -38,14 +38,11 @@ class TokenService {
     }
 
     async saveToken(userId: string, refreshToken: string) {
-       
 
-        const tokenData = await prismaClient.token.findUnique({
-            where: { userId}
-        })
-        console.log('saveToken findUnique refreshToken', tokenData);
 
-        if (!tokenData) {
+        const tokenData = await this.findAllUserToken(userId)
+
+        if (!tokenData?.tokens.length) {
             await prismaClient.token.create({
                 data: {
                     user: {
@@ -81,10 +78,17 @@ class TokenService {
 
     }
 
-    async findToken(refreshToken: string) {
-        return prismaClient.token.findUnique({
+    async findAllUserToken(userId: string) {
+        if (!userId) {
+            return null
+        }
+
+        return prismaClient.user.findUnique({
             where: {
-                refreshToken
+                id: userId
+            },
+            include: {
+                tokens: true
             }
         })
     }
