@@ -17,6 +17,7 @@
     "server": "nodemon ./build/main",
     "client": "npm run dev --prefix client",
     "client:build": "npm run build --prefix client",
+    "server:build": "rimraf ./build && npx tsc",
     "build": "rimraf ./build && npx tsc && npm run client:build",
     "start": "npm run build && npm run start:prod",
     "start:prod": "cross-env ENV_PROD=production node build/src/main",
@@ -24,7 +25,7 @@
     "format": "npx eslint ./src --fix",
     "server-dependencies": "npm install",
     "client-dependencies": "npm install --prefix client",
-    "install-all-deps": "npm install && concurrently \"npm run server-dependencies\" \"npm run client-dependencies\""
+    "install-all-deps": "npm install && cd client && npm install"
   },
   "keywords": [],
   "author": "",
