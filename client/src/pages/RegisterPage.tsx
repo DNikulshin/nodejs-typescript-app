@@ -6,9 +6,10 @@ import { useStore } from '../store/store.ts'
 export const RegisterPage: FC = () => {
 
   const isAuth = useStore(state => state.isAuth)
+console.log('isAuth', isAuth);
 
   if (isAuth) {
-    return <Navigate to='/login' replace />
+    return <Navigate to='/' replace />
   }
   return (
     <main className="overflow-hidden">

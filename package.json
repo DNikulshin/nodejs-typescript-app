@@ -25,7 +25,6 @@
     "server-dependencies": "npm install",
     "client-dependencies": "npm install --prefix client",
     "install-all-deps": "npm install && concurrently \"npm run server-dependencies\" \"npm run client-dependencies\""
-    
   },
   "keywords": [],
   "author": "",
