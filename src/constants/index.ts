@@ -6,4 +6,4 @@ export const REFRESH_PATH = '/refresh'
 export const USERS_PATH = '/users'
 export const USERS_PATH_BY_ID = '/users/:id'
 export const TEST_PATH = '/alive'
-export const MAX_AGE_REFRESH_TOKEN=30*24*60*60*1000 //30 days
+export const MAX_AGE_REFRESH_TOKEN=30*24*60*60*1000// 30*24*60*60*1000 30 days //30 days //30*1000 - 30sec

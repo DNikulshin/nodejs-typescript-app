@@ -5,6 +5,6 @@ export interface IUser {
     email: string
     isActivated: boolean
     name?: string | undefined
-    role?: Role[]
-    post?: Post[]
+    roles?: Role[]
+    posts?: Post[]
 }

@@ -7,7 +7,7 @@ import { useStore } from './store/store.ts'
 function App() {
   const checkAuth = useStore(state => state.checkAuth)
   const isLoading = useStore(state => state.isLoading)
-  const isAuth = useStore(state => state.isAuth)
+  //const isAuth = useStore(state => state.isAuth)
 
   useEffect(() => {
     if (localStorage.getItem('accessToken')) checkAuth()

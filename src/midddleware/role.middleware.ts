@@ -1,12 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { ApiError } from '../exeptions/api.error.js'
-import { Role } from '@prisma/client'
 
-
-// interface roleMiddlewareProps {
-//     name: string[]
-// }
 
 export default function (roles: string[]) {
     return function (req: Request, res: Response, next: NextFunction) {
@@ -29,7 +24,7 @@ export default function (roles: string[]) {
             }
 
 
-            const { role: userRoles } = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET) as JwtPayload
+            const { roles: userRoles } = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET) as JwtPayload
 
 
             const isincludesRole = userRoles.every((role: { name: string }) => roles.includes(role.name))
@@ -41,6 +36,7 @@ export default function (roles: string[]) {
 
             next()
         } catch (error) {
+            
             return next(ApiError.UnauthorizedError())
         }
     }

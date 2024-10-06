@@ -1,16 +1,15 @@
 import { ChangeEvent, FC, FormEventHandler, ReactNode, useState } from 'react'
-import { IError, useStore } from '../store/store'
+import { useStore } from '../store/store'
 
 interface FormPropsTypes {
   title: string
   type: 'login' | 'registration',
   buttonText: string,
-  children?: ReactNode,
-  errors: IError[]
+  children?: ReactNode
 }
 
 
-export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children, errors }) => {
+export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children }) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
@@ -18,6 +17,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children, er
 
   const login = useStore(state => state.login)
   const registration = useStore(state => state.registration)
+  const errors = useStore(state => state.errors)
 
   const onSubmit: FormEventHandler = (e) => {
     e.preventDefault()
@@ -52,7 +52,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children, er
           autoComplete="email"
         />
       </label>
-        {errors && errors.map(error => {
+        {Array.isArray(errors) && errors.map(error => {
             if(error.path === 'email') {
               return (
                 <small  key={error.path} className="text-red-500">{error.msg}</small>
@@ -73,7 +73,7 @@ export const Form: FC<FormPropsTypes> = ({ title, type, buttonText, children, er
           autoComplete="current-password"
         />
       </label>
-      {errors && errors.map(error => {
+      {Array.isArray(errors) && errors.map(error => {
           if(error.path === 'password') {
             return (
               <small key={error.path} className="text-red-500">{error.msg}</small>

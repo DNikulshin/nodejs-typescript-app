@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client'
-import { connect } from 'http2'
 import jwt from 'jsonwebtoken'
 
 const prismaClient = new PrismaClient()
 
 class TokenService {
-     generateTokens(payload: string | object) {
+
+    generateTokens(payload: string | object) {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
             expiresIn: process.env.JWT_ACCESS_EXPIRESIN
         })
@@ -38,19 +38,17 @@ class TokenService {
     }
 
     async saveToken(userId: string, refreshToken: string) {
-        const tokenData = await prismaClient.token.findUnique({
-            where: { userId, refreshToken }
-        })
 
-        if (!tokenData) {
+
+        const tokenData = await this.findAllUserToken(userId)
+
+        if (!tokenData?.tokens.length) {
             await prismaClient.token.create({
                 data: {
                     user: {
-
                         connect: {
                             id: userId
                         }
-
                     },
                     refreshToken
                 }
@@ -59,22 +57,15 @@ class TokenService {
 
         await prismaClient.token.update({
             where: {
-                userId,
-                refreshToken
+                userId
             },
             data: {
-                user: {
-                    connect: {
-                        id: userId
-                    }
-                },
                 refreshToken
             }
         })
     }
 
     async removeToken(refreshToken: string) {
-
         if (!refreshToken) {
             return null
         }
@@ -87,16 +78,21 @@ class TokenService {
 
     }
 
-    async findToken(refreshToken: string) {
-        return prismaClient.token.findUnique({
+    async findAllUserToken(userId: string) {
+        if (!userId) {
+            return null
+        }
+
+        return prismaClient.user.findUnique({
             where: {
-                refreshToken
+                id: userId
+            },
+            include: {
+                tokens: true
             }
         })
     }
 
-
 }
-
 
 export default new TokenService()
