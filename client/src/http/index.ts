@@ -3,7 +3,7 @@ import { AuthResponse } from '../models/response/AuthResponse.ts'
 
 const $api = axios.create({
   withCredentials: true,
-  baseURL: import.meta.env.VITE_APP_API_URL,
+  baseURL: import.meta.env.VITE_APP_API_URL || 'http://localhost:5000/api',
 })
 
 $api.interceptors.request.use((config) => {
